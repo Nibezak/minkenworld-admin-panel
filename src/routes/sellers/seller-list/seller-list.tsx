@@ -13,7 +13,7 @@ import {
   usePrompt,
 } from "@medusajs/ui";
 
-import { validateEmail } from "@lib/validate-email";
+import { keepPreviousData } from "@tanstack/react-query";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useNavigate } from "react-router-dom";
 
@@ -31,42 +31,37 @@ import { useSellersTableColumns } from "@hooks/table/columns/use-seller-table-co
 import { useSellersTableQuery } from "@hooks/table/query";
 import { useDataTable } from "@hooks/use-data-table";
 
+import { validateEmail } from "@lib/validate-email";
+
 const PAGE_SIZE = 10;
 
 type SellersProps = VendorSeller & { store_status: string };
-
-type SellersResponse = {
-  sellers?: SellersProps[];
-  isLoading: boolean;
-};
 
 export const SellersList = () => {
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
   const { searchParams, raw } = useSellersTableQuery({
     pageSize: PAGE_SIZE,
-    offset: 0,
   });
 
-  const { sellers, isLoading } = useSellers(
+  const { sellers, count, isLoading } = useSellers(
     {
       fields: "id,email,name,created_at,store_status",
+      ...searchParams,
     },
-    undefined,
     {
-      q: searchParams.q,
-      order: searchParams.order,
+      placeholderData: keepPreviousData,
     },
-  ) as SellersResponse;
+  );
 
   const { mutateAsync: inviteSeller } = useInviteSeller();
 
   const columns = useColumns();
 
   const { table } = useDataTable({
-    data: sellers,
+    data: sellers ?? [],
     columns,
-    count: sellers?.length || 0,
+    count: count ?? 0,
     enablePagination: true,
     pageSize: PAGE_SIZE,
     getRowId: (row) => row?.id || "",
@@ -134,8 +129,8 @@ export const SellersList = () => {
         <_DataTable
           table={table}
           columns={columns}
-          count={sellers?.length || 0}
-          pageSize={10}
+          count={count ?? 0}
+          pageSize={PAGE_SIZE}
           isLoading={isLoading}
           queryObject={raw}
           search
