@@ -105,7 +105,7 @@ export const RequestProductCollectionList = () => {
           </Table.Body>
         </Table>
         <Table.Pagination
-          canNextPage={PAGE_SIZE * (currentPage + 1) < count!}
+          canNextPage={PAGE_SIZE * (currentPage + 1) < (count ?? 0)}
           canPreviousPage={currentPage > 0}
           previousPage={() => {
             setCurrentPage(currentPage - 1);
@@ -113,8 +113,8 @@ export const RequestProductCollectionList = () => {
           nextPage={() => {
             setCurrentPage(currentPage + 1);
           }}
-          count={count!}
-          pageCount={Math.ceil(count! / PAGE_SIZE)}
+          count={count ?? 0}
+          pageCount={Math.ceil((count ?? 0) / PAGE_SIZE)}
           pageIndex={currentPage}
           pageSize={PAGE_SIZE}
         />
