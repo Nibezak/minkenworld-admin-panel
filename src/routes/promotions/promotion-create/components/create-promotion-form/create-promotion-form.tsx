@@ -369,22 +369,24 @@ export const CreatePromotionForm = () => {
   }
 
   return (
-    <RouteFocusModal.Form form={form}>
+    <RouteFocusModal.Form form={form} data-testid="promotion-create-form">
       <KeyboundForm className="flex h-full flex-col" onSubmit={handleSubmit}>
         <ProgressTabs
           dir={direction}
           value={tab}
           onValueChange={(tab) => handleTabChange(tab as Tab)}
           className="flex h-full flex-col overflow-hidden"
+          data-testid="promotion-create-form-tabs"
         >
-          <RouteFocusModal.Header>
+          <RouteFocusModal.Header data-testid="promotion-create-form-header">
             <div className="flex w-full items-center justify-between gap-x-4">
               <div className="-my-2 w-full max-w-[600px] border-l">
-                <ProgressTabs.List className="grid w-full grid-cols-3">
+                <ProgressTabs.List className="grid w-full grid-cols-3" data-testid="promotion-create-form-tabs-list">
                   <ProgressTabs.Trigger
                     className="w-full"
                     value={Tab.TYPE}
                     status={tabState[Tab.TYPE]}
+                    data-testid="promotion-create-form-tab-type"
                   >
                     {t("promotions.tabs.template")}
                   </ProgressTabs.Trigger>
@@ -393,6 +395,7 @@ export const CreatePromotionForm = () => {
                     className="w-full"
                     value={Tab.PROMOTION}
                     status={tabState[Tab.PROMOTION]}
+                    data-testid="promotion-create-form-tab-promotion"
                   >
                     {t("promotions.tabs.details")}
                   </ProgressTabs.Trigger>
@@ -401,6 +404,7 @@ export const CreatePromotionForm = () => {
                     className="w-full"
                     value={Tab.CAMPAIGN}
                     status={tabState[Tab.CAMPAIGN]}
+                    data-testid="promotion-create-form-tab-campaign"
                   >
                     {t("promotions.tabs.campaign")}
                   </ProgressTabs.Trigger>
@@ -409,10 +413,11 @@ export const CreatePromotionForm = () => {
             </div>
           </RouteFocusModal.Header>
 
-          <RouteFocusModal.Body className="size-full overflow-hidden">
+          <RouteFocusModal.Body className="size-full overflow-hidden" data-testid="promotion-create-form-body">
             <ProgressTabs.Content
               value={Tab.TYPE}
               className="size-full overflow-y-auto"
+              data-testid="promotion-create-form-content-type"
             >
               <div className="flex size-full flex-col items-center">
                 <div className="w-full max-w-[720px] py-16">
@@ -421,16 +426,17 @@ export const CreatePromotionForm = () => {
                     name="template_id"
                     render={({ field }) => {
                       return (
-                        <Form.Item>
-                          <Form.Label>{t("promotions.fields.type")}</Form.Label>
+                        <Form.Item data-testid="promotion-create-form-template-item">
+                          <Form.Label data-testid="promotion-create-form-template-label">{t("promotions.fields.type")}</Form.Label>
 
-                          <Form.Control>
+                          <Form.Control data-testid="promotion-create-form-template-control">
                             <RadioGroup
                               dir={direction}
                               key={"template_id"}
                               className="flex-col gap-y-3"
                               {...field}
                               onValueChange={field.onChange}
+                              data-testid="promotion-create-form-template-radio-group"
                             >
                               {templates.map((template) => {
                                 return (
@@ -439,12 +445,13 @@ export const CreatePromotionForm = () => {
                                     value={template.id}
                                     label={template.title}
                                     description={template.description}
+                                    data-testid={`promotion-create-form-template-option-${template.id}`}
                                   />
                                 )
                               })}
                             </RadioGroup>
                           </Form.Control>
-                          <Form.ErrorMessage />
+                          <Form.ErrorMessage data-testid="promotion-create-form-template-error" />
                         </Form.Item>
                       )
                     }}
@@ -456,10 +463,11 @@ export const CreatePromotionForm = () => {
             <ProgressTabs.Content
               value={Tab.PROMOTION}
               className="size-full overflow-y-auto"
+              data-testid="promotion-create-form-content-promotion"
             >
               <div className="flex size-full flex-col items-center">
                 <div className="flex w-full max-w-[720px] flex-col gap-y-8 py-16">
-                  <Heading level="h1" className="text-fg-base">
+                  <Heading level="h1" className="text-fg-base" data-testid="promotion-create-form-promotion-heading">
                     {t(`promotions.sections.details`)}
 
                     {currentTemplate?.title && (
@@ -468,6 +476,7 @@ export const CreatePromotionForm = () => {
                         color="grey"
                         size="2xsmall"
                         rounded="full"
+                        data-testid="promotion-create-form-promotion-template-badge"
                       >
                         {currentTemplate?.title}
                       </Badge>
@@ -967,6 +976,7 @@ export const CreatePromotionForm = () => {
             <ProgressTabs.Content
               value={Tab.CAMPAIGN}
               className="size-full overflow-auto"
+              data-testid="promotion-create-form-content-campaign"
             >
               <div className="flex flex-col items-center">
                 <div className="flex w-full max-w-[720px] flex-col gap-y-8 py-16">
@@ -979,10 +989,10 @@ export const CreatePromotionForm = () => {
             </ProgressTabs.Content>
           </RouteFocusModal.Body>
         </ProgressTabs>
-        <RouteFocusModal.Footer>
+        <RouteFocusModal.Footer data-testid="promotion-create-form-footer">
           <div className="flex items-center justify-end gap-x-2">
             <RouteFocusModal.Close asChild>
-              <Button variant="secondary" size="small">
+              <Button variant="secondary" size="small" data-testid="promotion-create-form-cancel-button">
                 {t("actions.cancel")}
               </Button>
             </RouteFocusModal.Close>
@@ -993,6 +1003,7 @@ export const CreatePromotionForm = () => {
                 type="submit"
                 size="small"
                 isLoading={false}
+                data-testid="promotion-create-form-save-button"
               >
                 {t("actions.save")}
               </Button>
@@ -1002,6 +1013,7 @@ export const CreatePromotionForm = () => {
                 type="button"
                 onClick={handleContinue}
                 size="small"
+                data-testid="promotion-create-form-continue-button"
               >
                 {t("actions.continue")}
               </Button>
