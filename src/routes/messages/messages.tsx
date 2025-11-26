@@ -35,7 +35,7 @@ export const Messages = () => {
             <Spinner className="text-ui-fg-interactive animate-spin" data-testid="messages-loading-spinner" />
           </div>
         ) : talkJsAppId ? (
-          <div data-testid="messages-inbox">
+          <div className="h-full" data-testid="messages-inbox">
             <Session appId={talkJsAppId} syncUser={syncUser}>
               <Inbox className="h-full" />
             </Session>
