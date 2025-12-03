@@ -260,7 +260,7 @@ export const EditShippingOptionForm = ({
                   control={form.control}
                   name="provider_id"
                   disabled={true}
-                  render={({ field }) => {
+                  render={() => {
                     return (
                       <Form.Item data-testid="location-shipping-option-edit-form-provider-item">
                         <Form.Label data-testid="location-shipping-option-edit-form-provider-label">
